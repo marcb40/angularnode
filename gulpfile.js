@@ -14,6 +14,7 @@ gulp.task('connect', function () {
 
 gulp.task('browserify', function() {
     // Grabs the app.js file
+    console.log('app compile');
     return browserify('./app/app.js')
         // bundles it and creates a file called main.js
         .bundle()
@@ -21,3 +22,18 @@ gulp.task('browserify', function() {
         // saves it the public/js/ directory
         .pipe(gulp.dest('./public/js/'));
 })
+
+gulp.task('sass', function() {
+	console.log('sass compile');
+    return sass('./app/sass/style.sass')
+        .pipe(gulp.dest('./public/css'))
+})
+
+gulp.task('watch', function() {
+
+    gulp.watch('app/**/*.js', ['browserify'])
+    gulp.watch('app/sass/style.sass', ['sass'])
+})
+
+gulp.task('default', ['connect', 'watch'])
+
